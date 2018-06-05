@@ -251,7 +251,7 @@ namespace Sitecore.Support.EmailCampaign.Cm.Dispatch
 
                             bool isSubscribed = Message.MessageType == MessageType.Regular
                                 ? _recipientValidator.IsSubscribed(contact, _recipientManager)
-                                : !Message.ManagerRoot.GlobalSubscription.IsInDefaultExcludeCollection(contact);
+                                : !(Message.ManagerRoot.GlobalSubscription.IsInDefaultExcludeCollection(contact) && Message.ID != Message.ManagerRoot.Settings.SubscriptionConfirmationMessage.ID);
                             bool isSuppressed = GlobalSettings.Instance.CheckSuppressionList &&
                                                 _recipientValidator.IsSuppressed(contact);
                             bool isConsentRevoked = Message.MessageType == MessageType.Automated &&
