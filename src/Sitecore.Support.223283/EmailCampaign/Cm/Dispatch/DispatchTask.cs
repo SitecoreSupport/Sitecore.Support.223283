@@ -255,7 +255,7 @@ namespace Sitecore.Support.EmailCampaign.Cm.Dispatch
                             bool isSuppressed = GlobalSettings.Instance.CheckSuppressionList &&
                                                 _recipientValidator.IsSuppressed(contact);
                             bool isConsentRevoked = Message.MessageType == MessageType.Automated &&
-                                                    _recipientValidator.IsConsentRevoked(contact);
+                                                    _recipientValidator.IsConsentRevoked(contact) && Message.ID != Message.ManagerRoot.Settings.SubscriptionConfirmationMessage.ID;
                             bool isBounceCountExceeded =
                                 _recipientValidator.IsBounceCountExceeded(contact, Message.ManagerRoot);
 
