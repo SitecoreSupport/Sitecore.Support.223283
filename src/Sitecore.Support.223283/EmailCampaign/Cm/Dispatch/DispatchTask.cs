@@ -249,15 +249,11 @@ namespace Sitecore.Support.EmailCampaign.Cm.Dispatch
                             //Summary.AddTimeDuration(TimeFlag.UpdateEmailHistoryFacet, stopwatch.Elapsed);
                             AddTimeDuration(13, stopwatch.Elapsed);
 
-                            bool isSubscribed = Message.MessageType == MessageType.Regular
-                                ? _recipientValidator.IsSubscribed(contact, _recipientManager)
-                                : !(Message.ManagerRoot.GlobalSubscription.IsInDefaultExcludeCollection(contact) && Message.ID != Message.ManagerRoot.Settings.SubscriptionConfirmationMessage.ID);
-                            bool isSuppressed = GlobalSettings.Instance.CheckSuppressionList &&
-                                                _recipientValidator.IsSuppressed(contact);
+                            bool isSubscribed = !(Message.ManagerRoot.GlobalSubscription.IsInDefaultExcludeCollection(contact) && Message.ID != Message.ManagerRoot.Settings.SubscriptionConfirmationMessage.ID);
+                            bool isSuppressed = GlobalSettings.Instance.CheckSuppressionList && _recipientValidator.IsSuppressed(contact);
                             bool isConsentRevoked = Message.MessageType == MessageType.Automated &&
                                                     _recipientValidator.IsConsentRevoked(contact) && Message.ID != Message.ManagerRoot.Settings.SubscriptionConfirmationMessage.ID;
-                            bool isBounceCountExceeded =
-                                _recipientValidator.IsBounceCountExceeded(contact, Message.ManagerRoot);
+                            bool isBounceCountExceeded = _recipientValidator.IsBounceCountExceeded(contact, Message.ManagerRoot);
 
                             // Decide preferred language.
                             Language preferredLanguage = DecidePreferredLanguage(contact);
